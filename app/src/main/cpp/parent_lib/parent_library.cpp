@@ -46,65 +46,65 @@ std::basic_string<char> ParentLibrary::executeChildFunction() {
     }
 }
 
-extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_example_nativebridgeproject_NativeInterface_loadChildLibrary(JNIEnv *env, jobject thiz,
-                                                                      jstring lib_path) {
-    const char *path = env->GetStringUTFChars(lib_path, nullptr);
-    ParentLibrary parentLib;
-    char* success = parentLib.loadChildLibrary(path);
-    env->ReleaseStringUTFChars(lib_path, path);
-    return env->NewStringUTF(success);
-
-}
-extern "C"
-JNIEXPORT jstring  JNICALL
-Java_com_example_nativebridgeproject_NativeInterface_executeChildFunction(JNIEnv *env,
-                                                                          jobject thiz) {
-
-    ParentLibrary parentLib= ParentLibrary();
-
-    return env->NewStringUTF(parentLib.executeChildFunction().c_str());
-
-
-}
-extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_example_nativebridgeproject_NativeInterface_loadAndCallChildLibrary(JNIEnv *env,
-                                                                             jobject thiz, jstring lib_path) {
-    const char *path = env->GetStringUTFChars(lib_path, nullptr);
-    const char* childLibPath = path;
-
-    // Load the child library
-    void* handle = dlopen(childLibPath, RTLD_NOW);
-    if (!handle) {
-        const char* error = dlerror();
-        std::cerr << "Failed to load child library: " << error << std::endl;
-        return env->NewStringUTF("Failed to load child library");
-    }
-
-    // Reset dlerror
-    dlerror();
-
-    // Get the symbol (function pointer) from the child library
-    typedef const char* (*GetStringFunction)();
-    GetStringFunction getStringFromChildLib = (GetStringFunction)dlsym(handle, "getStringFromChildLib");
-    const char* error = dlerror();
-    if (error != NULL) {
-        std::cerr << "Failed to find symbol: " << error << std::endl;
-        dlclose(handle);
-        return env->NewStringUTF("Failed to find symbol in child library");
-    }
-
-    // Call the function in the child library
-    const char* result = getStringFromChildLib();
-
-    // Close the child library when done
-    dlclose(handle);
-
-    // Return the result back to Java/Kotlin as a jstring
-    return env->NewStringUTF(result);
-}
+//extern "C"
+//JNIEXPORT jstring JNICALL
+//Java_com_example_nativebridgeproject_NativeInterface_loadChildLibrary(JNIEnv *env, jobject thiz,
+//                                                                      jstring lib_path) {
+//    const char *path = env->GetStringUTFChars(lib_path, nullptr);
+//    ParentLibrary parentLib;
+//    char* success = parentLib.loadChildLibrary(path);
+//    env->ReleaseStringUTFChars(lib_path, path);
+//    return env->NewStringUTF(success);
+//
+//}
+//extern "C"
+//JNIEXPORT jstring  JNICALL
+//Java_com_example_nativebridgeproject_NativeInterface_executeChildFunction(JNIEnv *env,
+//                                                                          jobject thiz) {
+//
+//    ParentLibrary parentLib= ParentLibrary();
+//
+//    return env->NewStringUTF(parentLib.executeChildFunction().c_str());
+//
+//
+//}
+//extern "C"
+//JNIEXPORT jstring JNICALL
+//Java_com_example_nativebridgeproject_NativeInterface_loadAndCallChildLibrary(JNIEnv *env,
+//                                                                             jobject thiz, jstring lib_path) {
+//    const char *path = env->GetStringUTFChars(lib_path, nullptr);
+//    const char* childLibPath = path;
+//
+//    // Load the child library
+//    void* handle = dlopen(childLibPath, RTLD_NOW);
+//    if (!handle) {
+//        const char* error = dlerror();
+//        std::cerr << "Failed to load child library: " << error << std::endl;
+//        return env->NewStringUTF("Failed to load child library");
+//    }
+//
+//    // Reset dlerror
+//    dlerror();
+//
+//    // Get the symbol (function pointer) from the child library
+//    typedef const char* (*GetStringFunction)();
+//    GetStringFunction getStringFromChildLib = (GetStringFunction)dlsym(handle, "getStringFromChildLib");
+//    const char* error = dlerror();
+//    if (error != NULL) {
+//        std::cerr << "Failed to find symbol: " << error << std::endl;
+//        dlclose(handle);
+//        return env->NewStringUTF("Failed to find symbol in child library");
+//    }
+//
+//    // Call the function in the child library
+//    const char* result = getStringFromChildLib();
+//
+//    // Close the child library when done
+//    dlclose(handle);
+//
+//    // Return the result back to Java/Kotlin as a jstring
+//    return env->NewStringUTF(result);
+//}
 
 //
 //void extractZipFromAssets(AAssetManager* assetManager, const char* assetName, const char* destPath) {

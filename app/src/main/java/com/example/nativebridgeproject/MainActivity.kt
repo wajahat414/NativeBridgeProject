@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Example of a call to a native method
-        binding.sampleText.text = stringFromJNI()
+//        binding.sampleText.text = stringFromJNI()
 
         val childLibPath = "libchild_lib.so"
 
         val nativeInterface = NativeInterface()
-        binding.sampleText.text = nativeInterface.loadChildLibrary("$childLibPath")
+//        binding.sampleText.text = nativeInterface.loadChildLibrary("$childLibPath")
 
 // Specify the path to the child library .so file
 

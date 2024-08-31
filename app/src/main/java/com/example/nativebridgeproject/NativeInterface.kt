@@ -8,8 +8,8 @@ package com.example.nativebridgeproject
 
         }
 
-        external fun loadChildLibrary(libPath: String): String
-        external fun executeChildFunction() : String
-        external fun loadAndCallChildLibrary(string: String): String
+//        external fun loadChildLibrary(libPath: String): String
+//        external fun executeChildFunction() : String
+//        external fun loadAndCallChildLibrary(string: String): String
     }
 
